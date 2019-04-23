@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uniasia.ent.mapper.GisEnterpriseMapper">
+
+	<resultMap id="gisEnterpriseResult" type="GisEnterprise">
+		<id column="id" property="id"/>
+		<result column="tradegbid" property="tradegbid" jdbcType="INTEGER" />
+		<result column="tradeid" property="tradeid" jdbcType="INTEGER" />
+	    <result column="parkid" property="parkid" jdbcType="INTEGER" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="address" property="address" jdbcType="VARCHAR" />
+	    <result column="labels" property="labels" jdbcType="VARCHAR" />
+	    <result column="pay" property="pay" jdbcType="DOUBLE" />
+	    <result column="website" property="website" jdbcType="VARCHAR" />
+	    <result column="uscc" property="uscc" jdbcType="VARCHAR" />
+	    <result column="legal" property="legal" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="VARCHAR" />
+	    <result column="scope" property="scope" jdbcType="VARCHAR" />
+	    <result column="coverimg" property="coverimg" jdbcType="VARCHAR" />
+	    <result column="images" property="images" jdbcType="VARCHAR" />
+	    <result column="lng" property="lng" jdbcType="DOUBLE" />
+	    <result column="lat" property="lat" jdbcType="DOUBLE" />
+	    <result column="polygon" property="polygon" jdbcType="VARCHAR" />
+	    <result column="panoramaurl" property="panoramaurl" jdbcType="VARCHAR" />
+	    <result column="landarea_unused" property="landareaUnused" jdbcType="DOUBLE" />
+	    <result column="landarea" property="landarea" jdbcType="DOUBLE" />
+	    <result column="landarea_used" property="landareaUsed" jdbcType="DOUBLE" />
+	    <result column="island" property="island" jdbcType="INTEGER" />
+	    <result column="isstaff_range" property="isstaffRange" jdbcType="INTEGER" />
+	    <result column="staff" property="staff" jdbcType="INTEGER" />
+	    <result column="staff_min" property="staffMin" jdbcType="INTEGER" />
+	    <result column="staff_max" property="staffMax" jdbcType="INTEGER" />
+	    <result column="develop_result" property="developResult" jdbcType="VARCHAR" />
+	    <result column="patent" property="patent" jdbcType="INTEGER" />
+	    <result column="technology" property="technology" jdbcType="VARCHAR" />
+	    <result column="nature" property="nature" jdbcType="INTEGER" />
+	    <result column="scale" property="scale" jdbcType="DOUBLE" />
+	    <result column="zipcode" property="zipcode" jdbcType="VARCHAR" />
+	    <result column="email" property="email" jdbcType="VARCHAR" />
+	    <result column="fax" property="fax" jdbcType="VARCHAR" />
+	    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+	    <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR" />
+	    <result column="descr" property="descr" jdbcType="VARCHAR" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+	    <result column="repeat_tag" property="repeatTag" jdbcType="BIGINT" />
+	    <result column="istarget" property="istarget" jdbcType="INTEGER" />
+	    <result column="audit" property="audit" jdbcType="INTEGER" />
+	    <result column="audit_note" property="auditNote" jdbcType="VARCHAR" />
+	    <result column="release" property="release" jdbcType="INTEGER" />
+	    <result column="refresh" property="refresh" jdbcType="INTEGER" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
+	    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="update_userid" property="updateUserid" jdbcType="INTEGER" />
+	    <result column="archived" property="archived" jdbcType="INTEGER" />
+	    <result column="win_update_time" property="winUpdateTime" jdbcType="TIMESTAMP" />
+	    <result column="corp_id" property="corpId" jdbcType="VARCHAR" />
+	    <result column="trade" property="trade" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="commonSelect">
+		SELECT
+			self.id,
+			self.tradegbid,
+			self.tradeid,
+			self.parkid,
+			self.`name`,
+			self.address,
+			self.labels,
+			self.pay,
+			self.website,
+			self.uscc,
+			self.legal,
+			self.type,
+			self.scope,
+			self.coverimg,
+			self.images,
+			self.lng,
+			self.lat,
+			self.polygon,
+			self.panoramaurl,
+			self.landarea_unused,
+			self.landarea,
+			self.landarea_used,
+			self.island,
+			self.isstaff_range,
+			self.staff,
+			self.staff_min,
+			self.staff_max,
+			self.develop_result,
+			self.patent,
+			self.technology,
+			self.nature,
+			self.scale,
+			self.zipcode,
+			self.email,
+			self.fax,
+			self.contacts,
+			self.contact_phone,
+			self.descr,
+			self.remark,
+			self.repeat_tag,
+			self.istarget,
+			self.audit,
+			self.audit_note,
+			self.`release`,
+			self.refresh,
+			self.create_time,
+			self.create_userid,
+			self.update_time,
+			self.update_userid,
+			self.archived,
+			self.win_update_time,
+			self.corp_id,
+			self.trade
+		FROM
+			gis_enterprise AS self
+	</sql>
+	
+	<select id="queryForPage" resultMap="gisEnterpriseResult" useCache="true">
+		<include refid="commonSelect" />
+		<where>
+			self.archived = 0
+			<if test="params.searchword != null and params.searchword !=''">
+				AND LOWER(self.`name`) LIKE LOWER(CONCAT('%',#{params.searchword},'%'))
+			</if>
+		</where>
+		ORDER BY self.update_time DESC
+	</select>
+	
+</mapper>
